@@ -6,6 +6,16 @@
   },
   "env": {
     "es6": true,
-    "browser": true
+    "browser": true,
+    "jquery": true
+  },
+  "globals": {
+    "todo": true,
+    "app": true,
+    "qs": true,
+    "qsa": true,
+    "$on": true,
+    "$delegate": true,
+    "$parent": true
   }
 }

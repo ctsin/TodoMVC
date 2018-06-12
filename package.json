@@ -1,7 +1,6 @@
 {
   "name": "todomvc",
   "version": "1.0.0",
-  "main": "index.js",
   "author": "邢贵志 <xinggz@zhongan.com.cn>",
   "license": "MIT",
   "devDependencies": {
@@ -14,6 +13,6 @@
     "parcel-bundler": "^1.8.1"
   },
   "scripts": {
-    "start": "parcel ./src/index.html -p 5500 --open"
+    "start": "parcel ./src/index.html -p 5500"
   }
 }
