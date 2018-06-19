@@ -26,8 +26,9 @@
   /**
    * @constructor
    */
-  function Template() {
-    this.defaultTemplate = `
+  class Template {
+    constructor() {
+      this.defaultTemplate = `
       <li data-id="{{id}}" class="{{completed}}">
         <div class="view">
           <input class="toggle" type="checkbox" {{checked}} />
@@ -36,41 +37,33 @@
         </div>
       </li>
       `;
-  }
-
-  Template.prototype.show = function(data) {
-    var view = "";
-
-    for (var i = 0; i < data.length; i++) {
-      var template = this.defaultTemplate;
-      var completed = "";
-      var checked = "";
-
-      if (data[i].completed) {
-        completed = "completed";
-        checked = "checked";
-      }
-
-      template = template.replace("{{id}}", data[i].id);
-      template = template.replace("{{title}}", escape(data[i].title));
-      template = template.replace("{{completed}}", completed);
-      template = template.replace("{{checked}}", checked);
-
-      view += template;
     }
-
-    return view;
-  };
-
-  Template.prototype.itemCounter = function(activeTodos) {
-    var plural = activeTodos === 1 ? "" : "s";
-
-    return `<strong>${activeTodos}</strong> item${plural} left`;
-  };
-
-  Template.prototype.clearCompletedButton = function(completedTodos) {
-    return completedTodos > 0 ? `Clear Completed` : ``;
-  };
+    show(data) {
+      var view = "";
+      for (var i = 0; i < data.length; i++) {
+        var template = this.defaultTemplate;
+        var completed = "";
+        var checked = "";
+        if (data[i].completed) {
+          completed = "completed";
+          checked = "checked";
+        }
+        template = template.replace("{{id}}", data[i].id);
+        template = template.replace("{{title}}", escape(data[i].title));
+        template = template.replace("{{completed}}", completed);
+        template = template.replace("{{checked}}", checked);
+        view += template;
+      }
+      return view;
+    }
+    itemCounter(activeTodos) {
+      var plural = activeTodos === 1 ? "" : "s";
+      return `<strong>${activeTodos}</strong> item${plural} left`;
+    }
+    clearCompletedButton(completedTodos) {
+      return completedTodos > 0 ? `Clear Completed` : ``;
+    }
+  }
 
   window.app = window.app || {};
   window.app.Template = Template;
