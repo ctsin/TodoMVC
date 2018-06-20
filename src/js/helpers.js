@@ -9,7 +9,7 @@
     return (scope || document).querySelectorAll(selector);
   };
 
-  window.$on = (target, type, callback, useCapture) => {
+  window.$on = (target, type, callback, useCapture = false) => {
     target.addEventListener(type, callback, !!useCapture);
   };
 

@@ -39,11 +39,11 @@
       `;
     }
     show(data) {
-      var view = "";
-      for (var i = 0; i < data.length; i++) {
-        var template = this.defaultTemplate;
-        var completed = "";
-        var checked = "";
+      let view = "";
+      for (let i = 0; i < data.length; i++) {
+        let template = this.defaultTemplate;
+        let completed = "";
+        let checked = "";
         if (data[i].completed) {
           completed = "completed";
           checked = "checked";

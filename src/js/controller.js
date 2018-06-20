@@ -20,11 +20,11 @@
       this.view.bind("itemRemove", item => {
         this.removeItem(item.id);
       });
-      this.view.bind("itemToggle", item => {
-        this.toggleComplete(item.id, item.completed);
-      });
       this.view.bind("removeCompleted", () => {
         this.removeCompletedItems();
+      });
+      this.view.bind("itemToggle", item => {
+        this.toggleComplete(item.id, item.completed);
       });
       this.view.bind("toggleAll", status => {
         this.toggleAll(status.completed);

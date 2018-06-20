@@ -6,7 +6,7 @@
    * @param {function} callback Fake DB callback
    */
   class Store {
-    constructor(name, callback = () => {}) {
+    constructor(name, callback = store => store) {
       this._db = name;
       if (!localStorage[name]) {
         var data = {
@@ -42,7 +42,7 @@
         })
       );
     }
-    all(callback = () => {}) {
+    all(callback = data => data) {
       callback.call(this, JSON.parse(localStorage[this._db]).todos);
     }
     save(updateData, callback = () => {}, id) {
@@ -63,8 +63,7 @@
         updateData.id = new Date().getTime();
         todos.push(updateData);
         localStorage[this._db] = JSON.stringify(data);
-        // ? 为什么传数组
-        callback.call(this, [updateData]);
+        callback.call(this);
       }
     }
     remove(id, callback) {

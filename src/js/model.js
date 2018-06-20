@@ -5,14 +5,14 @@
     constructor(store) {
       this.store = store;
     }
-    create(title = "", callback = () => {}) {
+    create(title = "", callback = data => data) {
       var newItem = {
         title: title.trim(),
         completed: false
       };
       this.store.save(newItem, callback);
     }
-    read(query, callback = () => {}) {
+    read(query, callback = data => data) {
       var queryType = typeof query;
       if (queryType === "function") {
         callback = query;
