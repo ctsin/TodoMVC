@@ -1,4 +1,4 @@
-import { emptyItemQuery } from "./item";
+import { emptyItemQuery, ItemUpdate, Item, ItemQuery } from "./item";
 
 export default class Store {
   /**
@@ -53,6 +53,56 @@ export default class Store {
       })
     );
   }
+
+  /**
+   *
+   * @param {ItemUpdate} update Record with an id, and a property to update
+   * @param {function()} [callback] Called when partialRecord is applied
+   */
+  update(update, callback) {
+    const id = update.id;
+    const todos = this.getLocalStorage();
+
+    let i = todos.length;
+    let k;
+
+    while (i--) {
+      if (todos[i].id === id) {
+        for (k in update) {
+          todos[i][k] = update[k];
+        }
+        break;
+      }
+    }
+
+    this.setLocalStorage(todos);
+
+    if (callback) {
+      callback();
+    }
+  }
+
+  /**
+   *
+   * @param {Item} item Item to insert
+   * @param {function()} [callback] Called when item is insert
+   */
+  insert(item, callback) {
+    const todos = this.getLocalStorage();
+    todos.push(item);
+    this.setLocalStorage(todos);
+
+    if (callback) {
+      callback();
+    }
+  }
+
+  /**
+   *
+   * @param {ItemQuery} query Query matching the items to remove
+   * @param {function(ItemList)|function()} callback Called when records matching query are removed
+   */
+  remove(query, callback) {}
 
   count(callback) {
     this.find(emptyItemQuery, data => {

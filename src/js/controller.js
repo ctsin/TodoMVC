@@ -5,6 +5,8 @@ export default class Controller {
     this.store = store;
     this.view = view;
 
+    this.view.bindAddItem(this.addItem.bind(this));
+
     this._activeRoute = "";
     this._lastActiveRoute = null;
   }
@@ -13,6 +15,24 @@ export default class Controller {
     const route = raw.replace(/^#\//, "");
     this._activeRoute = route;
     this._filter();
+  }
+
+  /**
+   *
+   * @param {!string} title Title of the new item
+   */
+  addItem(title) {
+    this.store.insert(
+      {
+        id: Date.now(),
+        title,
+        completed: false
+      },
+      () => {
+        this.view.clearNewTodo();
+        this._filter(true);
+      }
+    );
   }
 
   _filter(force) {

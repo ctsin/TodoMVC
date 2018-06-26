@@ -42,4 +42,18 @@ export default class View {
   setMainVisibility(visible) {
     this.$main.style.display = visible ? "block" : "none";
   }
+
+  clearNewTodo() {
+    this.$newTodo.value = "";
+  }
+
+  bindAddItem(handler) {
+    $on(this.$newTodo, "change", ({ target }) => {
+      const title = target.value.trim();
+
+      if (title) {
+        handler(title);
+      }
+    });
+  }
 }
