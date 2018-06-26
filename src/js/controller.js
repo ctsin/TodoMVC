@@ -6,6 +6,8 @@ export default class Controller {
     this.view = view;
 
     this.view.bindAddItem(this.addItem.bind(this));
+    this.view.bindEditItemSave(this.editItemSave.bind(this));
+    this.view.bindEditItemCancel(this.editItemCancel.bind(this));
 
     this._activeRoute = "";
     this._lastActiveRoute = null;
@@ -35,6 +37,31 @@ export default class Controller {
     );
   }
 
+  editItemSave(id, title) {
+    if (title.length) {
+      this.store.update({ id, title }, () => {
+        this.view.editItemDone(id, title);
+      });
+    } else {
+      this.removeItem(id);
+    }
+  }
+
+  editItemCancel(id) {
+    this.store.find({ id }, data => {
+      const title = data[0].title;
+
+      this.view.editItemDone(id, title);
+    });
+  }
+
+  removeItem(id) {
+    this.store.remove({ id }, () => {
+      this._filter();
+      this.view.removeItem(id);
+    });
+  }
+
   _filter(force) {
     const route = this._activeRoute;
 
@@ -49,7 +76,9 @@ export default class Controller {
           active: { completed: false },
           completed: { completed: true }
         }[route],
-        this.view.showItems.bind(this.view)
+        items => {
+          this.view.showItems(items);
+        }
       );
     }
 

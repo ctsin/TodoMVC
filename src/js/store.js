@@ -102,7 +102,25 @@ export default class Store {
    * @param {ItemQuery} query Query matching the items to remove
    * @param {function(ItemList)|function()} callback Called when records matching query are removed
    */
-  remove(query, callback) {}
+  remove(query, callback) {
+    let k;
+
+    const todos = this.getLocalStorage().filter(todo => {
+      for (k in query) {
+        if (query[k] !== todo[k]) {
+          return true;
+        }
+      }
+
+      return false;
+    });
+
+    this.setLocalStorage(todos);
+
+    if (callback) {
+      callback();
+    }
+  }
 
   count(callback) {
     this.find(emptyItemQuery, data => {
