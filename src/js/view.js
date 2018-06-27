@@ -63,6 +63,18 @@ export default class View {
     this.$todoItemCounter.innerHTML = this.template.itemCounter(itemLeft);
   }
 
+  setItemComplete(id, completed) {
+    const listItem = qs(`[data-id="${id}"]`);
+
+    if (!listItem) {
+      return;
+    }
+
+    listItem.className = completed ? "completed" : "";
+
+    qs("input", listItem).checked = completed;
+  }
+
   setClearCompletedButtonVisibility(visible) {
     this.$clearCompleted.style.display = visible ? "block" : "none";
   }
@@ -118,6 +130,28 @@ export default class View {
 
         handler(_itemId(target));
       }
+    });
+  }
+
+  bindRemoveItem(handler) {
+    $delegate(this.$todoList, ".destroy", "click", ({ target }) => {
+      handler(_itemId(target));
+    });
+  }
+
+  bindRemoveCompleted(handler) {
+    $on(this.$clearCompleted, "click", handler);
+  }
+
+  bindToggleItem(handler) {
+    $delegate(this.$todoList, ".toggle", "click", ({ target }) => {
+      handler(_itemId(target), target.checked);
+    });
+  }
+
+  bindToggleAll(handler) {
+    $on(this.$toggleAll, "click", ({ target }) => {
+      handler(target.checked);
     });
   }
 }

@@ -8,6 +8,10 @@ export default class Controller {
     this.view.bindAddItem(this.addItem.bind(this));
     this.view.bindEditItemSave(this.editItemSave.bind(this));
     this.view.bindEditItemCancel(this.editItemCancel.bind(this));
+    this.view.bindRemoveItem(this.removeItem.bind(this));
+    this.view.bindToggleItem(this.toggleCompleted.bind(this));
+    this.view.bindRemoveCompleted(this.removeCompletedItems.bind(this));
+    this.view.bindToggleAll(this.toggleAll.bind(this));
 
     this._activeRoute = "";
     this._lastActiveRoute = null;
@@ -60,6 +64,29 @@ export default class Controller {
       this._filter();
       this.view.removeItem(id);
     });
+  }
+
+  removeCompletedItems() {
+    this.store.remove({ completed: true }, force => {
+      this._filter(force);
+    });
+  }
+
+  toggleCompleted(id, completed) {
+    this.store.update({ id, completed }, () => {
+      this.view.setItemComplete(id, completed);
+      this._filter();
+    });
+  }
+
+  toggleAll(completed) {
+    this.store.find({ completed: !completed }, data => {
+      for (let { id } of data) {
+        this.toggleCompleted(id, completed);
+      }
+    });
+
+    this._filter();
   }
 
   _filter(force) {

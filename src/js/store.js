@@ -60,7 +60,7 @@ export default class Store {
    * @param {function()} [callback] Called when partialRecord is applied
    */
   update(update, callback) {
-    const id = update.id;
+    const { id } = update;
     const todos = this.getLocalStorage();
 
     let i = todos.length;
@@ -118,7 +118,7 @@ export default class Store {
     this.setLocalStorage(todos);
 
     if (callback) {
-      callback();
+      callback(todos);
     }
   }
 

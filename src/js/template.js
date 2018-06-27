@@ -11,7 +11,7 @@ export default class Template {
           item.completed ? "checked" : ""
         } />
         <label>${escapeForHTML(item.title)}</label>
-        <button class="destory"></button>
+        <button class="destroy"></button>
       </li>
       `,
       ""
