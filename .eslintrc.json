@@ -6,6 +6,11 @@
   },
   "env": {
     "es6": true,
-    "browser": true
+    "browser": true,
+    "jquery": true
+  },
+  "globals": {
+    "Handlebars": true,
+    "Router": true
   }
 }
