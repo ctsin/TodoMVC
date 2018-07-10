@@ -13,7 +13,7 @@ $(() => {
       return new Date().getTime();
     },
     pluralize(count, word) {
-      return count === 1 ? word : `${word}s`;
+      return count < 2 ? word : `${word}s`;
     },
     store(namespace, data) {
       if (arguments.length > 1) {
