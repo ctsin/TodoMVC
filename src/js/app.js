@@ -25,8 +25,8 @@ $(() => {
     }
   };
 
-  const APP = {
-    init() {
+  class App {
+    constructor() {
       this.todos = util.store("todos-jquery");
       this.todoTemplate = Handlebars.compile($("#todo-template").html());
       this.footerTemplate = Handlebars.compile($("#footer-template").html());
@@ -38,7 +38,7 @@ $(() => {
           this.render();
         }.bind(this)
       }).init("/all");
-    },
+    }
 
     render() {
       var todos = this.getFilteredTodos();
@@ -51,7 +51,7 @@ $(() => {
       $(".new-todo").focus();
 
       util.store("todos-jquery", this.todos);
-    },
+    }
 
     bindEvents() {
       $(".new-todo").on("keyup", this.create.bind(this));
@@ -67,7 +67,7 @@ $(() => {
         .on("keyup", ".edit", this.editKeyup.bind(this))
         .on("focusout", ".edit", this.update.bind(this))
         .on("click", ".destroy", this.destroy.bind(this));
-    },
+    }
 
     getFilteredTodos() {
       if (this.filter === "active") {
@@ -79,17 +79,17 @@ $(() => {
       }
 
       return this.todos;
-    },
+    }
 
     getActiveTodos() {
       return this.todos.filter(todo => {
         return !todo.completed;
       });
-    },
+    }
 
     getCompletedTodos() {
       return this.todos.filter(todo => todo.completed);
-    },
+    }
 
     renderFooter() {
       const todoCount = this.todos.length;
@@ -104,7 +104,7 @@ $(() => {
       $(".footer")
         .toggle(!!todoCount)
         .html(template);
-    },
+    }
 
     getIndexFromEl(target) {
       var id = $(target)
@@ -120,7 +120,7 @@ $(() => {
           return i;
         }
       }
-    },
+    }
 
     create(e) {
       const $input = $(e.target);
@@ -139,7 +139,7 @@ $(() => {
       $input.val("");
 
       this.render();
-    },
+    }
 
     toggleAll(e) {
       let isChecked = $(e.target).prop("checked");
@@ -149,13 +149,13 @@ $(() => {
       });
 
       this.render();
-    },
+    }
 
     destroyCompleted() {
       this.todos = this.getActiveTodos();
 
       this.render();
-    },
+    }
 
     toggle(e) {
       let i = this.getIndexFromEl(e.target);
@@ -163,7 +163,7 @@ $(() => {
       this.todos[i].completed = !this.todos[i].completed;
 
       this.render();
-    },
+    }
 
     editingMode(e) {
       const $input = $(e.target)
@@ -174,7 +174,7 @@ $(() => {
       $input.val("");
       $input.val(tmpStr);
       $input.focus();
-    },
+    }
 
     editKeyup(e) {
       if (e.which === ENTER_KEY) {
@@ -186,7 +186,7 @@ $(() => {
           .data("abort", true)
           .blur();
       }
-    },
+    }
 
     update(e) {
       const el = e.target;
@@ -203,13 +203,13 @@ $(() => {
       }
 
       this.render();
-    },
+    }
 
     destroy(e) {
       this.todos.splice(this.getIndexFromEl(e.target), 1);
       this.render();
     }
-  };
+  }
 
-  APP.init();
+  new App();
 });
