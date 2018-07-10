@@ -22,35 +22,7 @@
 	<footer class="info">
 		<p>Double-click to edit a todo</p>
 	</footer>
-	<script id="todo-template" type="text/x-handlebars-template">
-			{{#this}}
-			<li {{#if completed}}class="completed"{{/if}} data-id="{{id}}">
-				<div class="view">
-					<input class="toggle" type="checkbox" {{#if completed}}checked{{/if}}>
-					<label>{{title}}</label>
-					<button class="destroy"></button>
-				</div>
-				<input class="edit" value="{{title}}">
-			</li>
-		{{/this}}
-	</script>
-	<script id="footer-template" type="text/x-handlebars-template">
-		<span class="todo-count"><strong>{{activeTodoCount}}</strong> {{activeTodoWord}} left</span>
-		<ul class="filters">
-			<li>
-				<a {{#eq filter 'all'}}class="selected"{{/eq}} href="#/all">All</a>
-			</li>
-			<li>
-				<a {{#eq filter 'active'}}class="selected"{{/eq}}href="#/active">Active</a>
-			</li>
-			<li>
-				<a {{#eq filter 'completed'}}class="selected"{{/eq}}href="#/completed">Completed</a>
-			</li>
-		</ul>
-		{{#if completedTodos}}<button class="clear-completed">Clear completed</button>{{/if}}
-	</script>
 	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://cdn.bootcss.com/handlebars.js/4.0.11/handlebars.min.js"></script>
 	<script src="https://cdn.bootcss.com/Director/1.2.8/director.min.js"></script>
 	<script src="js/app.js"></script>
 </body>

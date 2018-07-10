@@ -1,12 +1,7 @@
+import { ENTER_KEY, ESCAPE_KEY } from "./constant";
+
 $(() => {
   "use strict";
-
-  const ENTER_KEY = 13;
-  const ESCAPE_KEY = 27;
-
-  Handlebars.registerHelper("eq", function(a, b, options) {
-    return a === b ? options.fn(this) : options.inverse(this);
-  });
 
   const util = {
     uuid() {
@@ -19,7 +14,7 @@ $(() => {
       if (arguments.length > 1) {
         return localStorage.setItem(namespace, JSON.stringify(data));
       } else {
-        var store = localStorage.getItem(namespace);
+        const store = localStorage.getItem(namespace);
         return (store && JSON.parse(store)) || [];
       }
     }
@@ -28,8 +23,16 @@ $(() => {
   class App {
     constructor() {
       this.todos = util.store("todos-jquery");
-      this.todoTemplate = Handlebars.compile($("#todo-template").html());
-      this.footerTemplate = Handlebars.compile($("#footer-template").html());
+
+      this.create = this.create.bind(this);
+      this.toggleAll = this.toggleAll.bind(this);
+      this.destroyCompleted = this.destroyCompleted.bind(this);
+      this.toggle = this.toggle.bind(this);
+      this.editingMode = this.editingMode.bind(this);
+      this.editKeyup = this.editKeyup.bind(this);
+      this.update = this.update.bind(this);
+      this.destroy = this.destroy.bind(this);
+
       this.bindEvents();
 
       new Router({
@@ -41,8 +44,22 @@ $(() => {
     }
 
     render() {
-      var todos = this.getFilteredTodos();
-      $(".todo-list").html(this.todoTemplate(todos));
+      const todos = this.getFilteredTodos();
+      const todoTemplate = todos.map(
+        todo => `
+          <li class="${todo.completed ? "completed" : ""}" data-id="${todo.id}">
+            <div class="view">
+              <input class="toggle" type="checkbox" ${
+                todo.completed ? "checked" : ""
+              }>
+              <label>${todo.title}</label>
+              <button class="destroy"></button>
+            </div>
+            <input class="edit" value="${todo.title}">
+          </li>
+          `
+      );
+      $(".todo-list").html(todoTemplate);
       $(".main").toggle(!!todos.length);
       $(".toggle-all").prop("checked", !this.getActiveTodos().length);
 
@@ -54,19 +71,15 @@ $(() => {
     }
 
     bindEvents() {
-      $(".new-todo").on("keyup", this.create.bind(this));
-      $(".toggle-all").on("change", this.toggleAll.bind(this));
-      $(".footer").on(
-        "click",
-        ".clear-completed",
-        this.destroyCompleted.bind(this)
-      );
+      $(".new-todo").on("keyup", this.create);
+      $(".toggle-all").on("change", this.toggleAll);
+      $(".footer").on("click", ".clear-completed", this.destroyCompleted);
       $(".todo-list")
-        .on("change", ".toggle", this.toggle.bind(this))
-        .on("dblclick", "label", this.editingMode.bind(this))
-        .on("keyup", ".edit", this.editKeyup.bind(this))
-        .on("focusout", ".edit", this.update.bind(this))
-        .on("click", ".destroy", this.destroy.bind(this));
+        .on("change", ".toggle", this.toggle)
+        .on("dblclick", "label", this.editingMode)
+        .on("keyup", ".edit", this.editKeyup)
+        .on("focusout", ".edit", this.update)
+        .on("click", ".destroy", this.destroy);
     }
 
     getFilteredTodos() {
@@ -94,26 +107,48 @@ $(() => {
     renderFooter() {
       const todoCount = this.todos.length;
       const activeTodoCount = this.getActiveTodos().length;
-      const template = this.footerTemplate({
-        activeTodoCount,
-        activeTodoWord: util.pluralize(activeTodoCount, "条"),
-        completedTodos: todoCount - activeTodoCount,
-        filter: this.filter
-      });
+      const activeTodoWord = util.pluralize(activeTodoCount, "item");
+      const completedTodos = todoCount - activeTodoCount;
+
+      const footerTemplate = `
+        <span class="todo-count">
+          <strong>${activeTodoCount}</strong>
+          ${activeTodoWord} left
+        </span>
+        <ul class="filters">
+          <li>
+            <a class="${this.filter === "all" ? "selected" : ""}"
+            href="#/all">All</a>
+          </li>
+          <li>
+            <a class="${this.filter === "active" ? "selected" : ""}"
+            href="#/active">Active</a>
+          </li>
+          <li>
+            <a class="${this.filter === "completed" ? "selected" : ""}"
+            href="#/completed">Completed</a>
+          </li>
+        </ul>
+        ${
+          completedTodos
+            ? `<button class="clear-completed">Clear completed</button>`
+            : ""
+        }
+      `;
 
       $(".footer")
         .toggle(!!todoCount)
-        .html(template);
+        .html(footerTemplate);
     }
 
     getIndexFromEl(target) {
-      var id = $(target)
+      const id = $(target)
         .closest("li")
         .data("id");
 
-      var todos = this.todos;
+      const todos = this.todos;
 
-      var i = todos.length;
+      let i = todos.length;
 
       while (i--) {
         if (todos[i].id === id) {
