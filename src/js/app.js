@@ -99,22 +99,18 @@ export default class App {
         <ul class="filters">
           <li>
             <a class="${this.filter === "all" ? "selected" : ""}"
-            href="#/all">All</a>
+            href="#/all">全部</a>
           </li>
           <li>
             <a class="${this.filter === "active" ? "selected" : ""}"
-            href="#/active">Active</a>
+            href="#/active">活动</a>
           </li>
           <li>
             <a class="${this.filter === "completed" ? "selected" : ""}"
-            href="#/completed">Completed</a>
+            href="#/completed">已完成</a>
           </li>
         </ul>
-        ${
-          completedTodos
-            ? `<button class="clear-completed">Clear completed</button>`
-            : ""
-        }
+        ${completedTodos ? `<button class="clear-completed">清理</button>` : ""}
       `;
 
     $(".footer")
