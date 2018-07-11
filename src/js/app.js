@@ -17,10 +17,10 @@ export default class App {
     this.bindEvents();
 
     new Router({
-      "/:filter": function(filter) {
+      "/:filter": filter => {
         this.filter = filter;
         this.render();
-      }.bind(this)
+      }
     }).init("/all");
   }
 
