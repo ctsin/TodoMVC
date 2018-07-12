@@ -6,14 +6,15 @@
   "devDependencies": {
     "babel-eslint": "^8.2.5",
     "eslint": "^5.1.0",
-    "node-sass": "^4.9.2"
+    "node-sass": "^4.9.2",
+    "parcel-bundler": "^1.9.7",
+    "rimraf": "^2.6.2"
   },
   "dependencies": {
-    "jquery": "^3.3.1",
-    "parcel-bundler": "^1.9.4"
+    "jquery": "^3.3.1"
   },
   "scripts": {
     "dev": "parcel ./src/index.html -p 5500",
-    "re": "rm -rf .cache/ dist/ && yarn dev"
+    "re": "rimraf .cache/ dist/ && yarn dev"
   }
 }

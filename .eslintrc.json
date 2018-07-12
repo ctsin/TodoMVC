@@ -1,21 +1,10 @@
 {
   "extends": "eslint:recommended",
   "parser": "babel-eslint",
-  "parserOptions": {
-    "sourceType": "module"
-  },
   "env": {
     "es6": true,
     "browser": true,
     "jquery": true
   },
-  "globals": {
-    "todo": true,
-    "app": true,
-    "qs": true,
-    "qsa": true,
-    "$on": true,
-    "$delegate": true,
-    "$parent": true
-  }
+  "globals": {}
 }
