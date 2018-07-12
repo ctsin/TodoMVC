@@ -14,7 +14,7 @@
         };
         localStorage[name] = JSON.stringify(data);
       }
-      callback.call(this, JSON.parse(localStorage[name]));
+      callback(JSON.parse(localStorage[name]));
     }
     /**
      * @param {object} query The query to match against
@@ -30,8 +30,7 @@
         return;
       }
       var todos = JSON.parse(localStorage[this._db]).todos;
-      callback.call(
-        this,
+      callback(
         todos.filter(todo => {
           for (var q in query) {
             if (query[q] !== todo[q]) {
@@ -43,7 +42,7 @@
       );
     }
     all(callback = data => data) {
-      callback.call(this, JSON.parse(localStorage[this._db]).todos);
+      callback(JSON.parse(localStorage[this._db]).todos);
     }
     save(updateData, callback = () => {}, id) {
       var data = JSON.parse(localStorage[this._db]);
@@ -58,12 +57,12 @@
           }
         }
         localStorage[this._db] = JSON.stringify(data);
-        callback.call(this, todos);
+        callback();
       } else {
         updateData.id = new Date().getTime();
         todos.push(updateData);
         localStorage[this._db] = JSON.stringify(data);
-        callback.call(this);
+        callback();
       }
     }
     remove(id, callback) {
@@ -76,12 +75,12 @@
         }
       }
       localStorage[this._db] = JSON.stringify(data);
-      callback.call(this, todos);
+      callback(todos);
     }
     reset(callback) {
       var data = { todos: [] };
       localStorage[this._db] = JSON.stringify(data);
-      callback.call(this, data.todos);
+      callback(data.todos);
     }
   }
 

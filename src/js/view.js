@@ -56,12 +56,11 @@
       var input = qs("input.edit", listItem);
       listItem.removeChild(input);
       listItem.className = listItem.className.replace("editing", "");
-      qsa("label", listItem).forEach(label => {
+      qs("label", listItem).forEach(label => {
         label.textContent = title;
       });
     }
     render(viewCmd, parameter) {
-      // todo 如何更优雅地处理 this 呢？
       var _this = this;
       var viewComands = {
         showEntries() {
