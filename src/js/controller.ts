@@ -47,10 +47,7 @@ export default class Controller {
   private addTodo(title) {
     if (title.trim() === "") return;
 
-    this.model.create(title, () => {
-      this.view.render("clearNewTodo", title);
-      // this.filter(true)
-    });
+    this.showEntries(title);
   }
 
   private removeTodo(id) {}
@@ -67,38 +64,33 @@ export default class Controller {
 
   private removeCompleted() {}
 
-  private showAll() {
-    this.model.read(data => {
+  private showEntries(todos) {
+    this.model.read(todos, data => {
       this.view.render("showEntries", data);
     });
   }
 
-  private showActive() {}
-
-  private showCompleted() {}
-
-  private filter(force = false) {
-    const activeRoute =
-      this.activeRoute.charAt(0).toUpperCase() + this.activeRoute.substr(1);
-
-    this[`show${activeRoute}`]();
-
-    this.lastActiveRoute = activeRoute;
-  }
-
-  private updateFilterState(currentPage: string) {
+  private updateFilterState(currentPage) {
     this.activeRoute = currentPage;
 
     this.activeRoute = this.activeRoute || "All";
 
-    this.filter();
-
     this.view.render("setFilter", currentPage);
+
+    this.lastActiveRoute = this.activeRoute;
   }
 
-  setView(locationHash: string) {
+  public setView(locationHash: string) {
     const route = locationHash.split("/")[1];
     const page = route || "";
+
+    const filter = {
+      "": {},
+      active: { completed: false },
+      completed: { completed: true }
+    };
+
+    this.showEntries(filter[this.activeRoute]);
 
     this.updateFilterState(page);
   }

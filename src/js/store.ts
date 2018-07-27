@@ -24,7 +24,7 @@ export default class Store {
 
     const todos: Todo[] = JSON.parse(localStorage[this.name]).todos;
 
-    callback();
+    callback(todos);
   }
 
   findAll(callback) {

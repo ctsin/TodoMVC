@@ -19,7 +19,7 @@ export default class Model {
     switch (queryType) {
       case "function":
         callback = query;
-        return this.store.findAll(callback);
+        this.store.findAll(callback);
       case "string" || "number":
         query = parseInt(query, 10);
         this.store.find({ id: query }, callback);
