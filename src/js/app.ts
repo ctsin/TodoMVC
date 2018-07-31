@@ -5,10 +5,10 @@ import View from "./view";
 import Controller from "./controller";
 
 export default class Todo {
-  store: Store;
-  model: Model;
-  template: Template;
-  view: View;
+  private store: Store;
+  private model: Model;
+  private template: Template;
+  private view: View;
   controller: Controller;
 
   constructor(private name: string) {

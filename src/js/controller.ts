@@ -2,10 +2,13 @@ import Model from "./model";
 import View from "./view";
 
 export default class Controller {
-  private activeRoute: string; // 'All', 'Active' & 'Completed'
-  private lastActiveRoute: string; // 'All', 'Active' & 'Completed'
+  private activeRoute: string;
+  private lastActiveRoute: string;
 
   constructor(private model: Model, private view: View) {
+    this.activeRoute = "";
+    this.lastActiveRoute = "";
+
     this.on();
   }
 
@@ -46,8 +49,6 @@ export default class Controller {
 
   private addTodo(title) {
     if (title.trim() === "") return;
-
-    this.showEntries(title);
   }
 
   private removeTodo(id) {}
@@ -64,10 +65,11 @@ export default class Controller {
 
   private removeCompleted() {}
 
-  private showEntries(todos) {
-    this.model.read(todos, data => {
-      this.view.render("showEntries", data);
-    });
+  public setView(locationHash: string) {
+    const route = locationHash.split("/")[1];
+    const page = route || "";
+
+    this.updateFilterState(page);
   }
 
   private updateFilterState(currentPage) {
@@ -75,23 +77,39 @@ export default class Controller {
 
     this.activeRoute = this.activeRoute || "All";
 
-    this.view.render("setFilter", currentPage);
+    this.filter();
 
-    this.lastActiveRoute = this.activeRoute;
+    this.view.render("setFilter", currentPage);
   }
 
-  public setView(locationHash: string) {
-    const route = locationHash.split("/")[1];
-    const page = route || "";
+  private filter(force = false) {
+    const activeRoute =
+      this.activeRoute.charAt(0).toUpperCase() + this.activeRoute.substr(1);
 
-    const filter = {
-      "": {},
-      active: { completed: false },
-      completed: { completed: true }
-    };
+    this.updateCount();
 
-    this.showEntries(filter[this.activeRoute]);
+    this[`show${activeRoute}`]();
 
-    this.updateFilterState(page);
+    this.lastActiveRoute = activeRoute;
+  }
+
+  private updateCount() {}
+
+  private showAll() {
+    this.model.read(data => {
+      this.view.render("showEntries", data);
+    });
+  }
+
+  private showActive() {
+    this.model.read({ completed: false }, data => {
+      this.view.render("showEntries", data);
+    });
+  }
+
+  private showCompleted() {
+    this.model.read({ completed: true }, data => {
+      this.view.render("showEntries", data);
+    });
   }
 }
