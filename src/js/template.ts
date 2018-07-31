@@ -9,9 +9,12 @@ export default class Template {
         return `
           <li data-id="${id}" class="${completed}">
             <div class="view">
-              <input class="toggle" type="checkbox" ${
-                completed ? "checked" : ""
-              }>
+              <input 
+                class="toggle" 
+                type="checkbox" 
+                autocompleted="off" 
+                ${completed && "checked"}
+              >
               <label>${title}</label>
               <button class="destroy"></button>
             </div>
@@ -19,5 +22,13 @@ export default class Template {
         `;
       })
       .join("");
+  }
+
+  todoCounter(active) {
+    const plural = active === 1 ? "" : "s";
+
+    return `
+      <strong>${active}</strong> item${plural} left
+    `;
   }
 }

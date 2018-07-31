@@ -5,10 +5,10 @@
   "license": "MIT",
   "devDependencies": {
     "babel-eslint": "^8.2.6",
-    "eslint": "^5.1.0",
+    "eslint": "^5.2.0",
     "node-sass": "^4.9.2",
     "rimraf": "^2.6.2",
-    "typescript": "^2.9.2"
+    "typescript": "^3.0.1"
   },
   "dependencies": {
     "parcel-bundler": "^1.9.7",

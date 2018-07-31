@@ -1,5 +1,6 @@
 import Template from "./template";
 import { $, $on, $parent } from "./helpers";
+import { Render } from "./constants";
 
 export default class View {
   private $new;
@@ -59,17 +60,25 @@ export default class View {
   removeCompleted(handler) {}
 
   // 渲染页面
-  render(command: string, parameter) {
+  // todo 准备转为 Render 类型定义
+  render(command, parameter?) {
     this[command](parameter);
   }
 
-  private clearNewTodo(parameter) {
+  private [Render.ClearNewTodo]() {
     this.$new.value = "";
   }
 
-  private showEntries(todos) {
+  private [Render.ShowEntries](todos) {
     this.$list.innerHTML = this.template.show(todos);
   }
 
-  private setFilter(currentPage) {}
+  private [Render.SetFilter](currentPage) {
+    $(".filters .selected").classList.remove("selected");
+    $(`.filters [href="#/${currentPage}"]`).classList.add("selected");
+  }
+
+  private [Render.UpdateElementCount](active) {
+    this.$counter.innerHTML = this.template.todoCounter(active);
+  }
 }

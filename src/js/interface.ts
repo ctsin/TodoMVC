@@ -12,3 +12,9 @@ export interface eventHandler {
     capture?: boolean
   ): void;
 }
+
+export interface todosCount {
+  active: number;
+  completed: number;
+  total: number;
+}

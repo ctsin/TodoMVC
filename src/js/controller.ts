@@ -1,5 +1,6 @@
 import Model from "./model";
 import View from "./view";
+import { Render } from "./constants";
 
 export default class Controller {
   private activeRoute: string;
@@ -49,6 +50,13 @@ export default class Controller {
 
   private addTodo(title) {
     if (title.trim() === "") return;
+
+    this.model.create(title, () => {
+      this.view.render(Render.ClearNewTodo);
+
+      // todo 准备 传入 true
+      this.filter();
+    });
   }
 
   private removeTodo(id) {}
@@ -79,7 +87,7 @@ export default class Controller {
 
     this.filter();
 
-    this.view.render("setFilter", currentPage);
+    this.view.render(Render.SetFilter, currentPage);
   }
 
   private filter(force = false) {
@@ -88,28 +96,33 @@ export default class Controller {
 
     this.updateCount();
 
+    // todo 仔细思考原文一系列判断是何用意
     this[`show${activeRoute}`]();
 
     this.lastActiveRoute = activeRoute;
   }
 
-  private updateCount() {}
+  private updateCount() {
+    this.model.getCount(todos => {
+      this.view.render(Render.UpdateElementCount, todos.active);
+    });
+  }
 
   private showAll() {
     this.model.read(data => {
-      this.view.render("showEntries", data);
+      this.view.render(Render.ShowEntries, data);
     });
   }
 
   private showActive() {
     this.model.read({ completed: false }, data => {
-      this.view.render("showEntries", data);
+      this.view.render(Render.ShowEntries, data);
     });
   }
 
   private showCompleted() {
     this.model.read({ completed: true }, data => {
-      this.view.render("showEntries", data);
+      this.view.render(Render.ShowEntries, data);
     });
   }
 }

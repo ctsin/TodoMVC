@@ -1,5 +1,5 @@
 import Store from "./store";
-import { Todo } from "./interface";
+import { Todo, todosCount } from "./interface";
 
 export default class Model {
   constructor(private store: Store) {}
@@ -32,5 +32,20 @@ export default class Model {
 
   delete(title, callback) {}
 
-  getCount(title, callback) {}
+  getCount(callback) {
+    const todosCount: todosCount = {
+      active: 0,
+      completed: 0,
+      total: 0
+    };
+
+    this.store.findAll(data => {
+      data.forEach(todo => {
+        todo.completed ? todosCount.completed++ : todosCount.active++;
+        todosCount.total++;
+      });
+    });
+
+    callback(todosCount.total);
+  }
 }
