@@ -28,9 +28,11 @@ export default class Model {
     }
   }
 
-  update(id, callback) {}
+  update(id: number, callback) {}
 
-  delete(id, callback) {}
+  delete(id: number, callback) {
+    this.store.remove(id, callback);
+  }
 
   getCount(callback: (active: number) => void) {
     const todosCount: todosCount = {

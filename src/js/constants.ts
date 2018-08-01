@@ -3,7 +3,7 @@ export const ESCAPE_KEY = 27;
 
 export enum Render {
   ShowEntries,
-  RemoveTodos,
+  RemoveTodo,
   EditTodos,
   EditTodosDone,
   UpdateElementCount,

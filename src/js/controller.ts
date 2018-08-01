@@ -15,35 +15,35 @@ export default class Controller {
 
   // 监听 DOM 事件
   private on() {
-    this.view.addTodo(({ title }) => {
+    this.view.onAddTodo(({ title }) => {
       this.addTodo(title);
     });
 
-    this.view.removeTodo(({ id }) => {
+    this.view.onRemoveTodo(id => {
       this.removeTodo(id);
     });
 
-    this.view.toggleTodo(({ id, completed }) => {
+    this.view.onToggleTodo(({ id, completed }) => {
       this.toggleTodo(id, completed);
     });
 
-    this.view.toggleAllTodo(({ completed }) => {
+    this.view.onToggleAllTodo(({ completed }) => {
       this.toggleAllTodo(completed);
     });
 
-    this.view.editTodo(({ id }) => {
+    this.view.onEeditTodo(({ id }) => {
       this.editTodo(id);
     });
 
-    this.view.editTodoDone(({ id, title }) => {
+    this.view.onEditTodoDone(({ id, title }) => {
       this.editTodoDone(id, title);
     });
 
-    this.view.editTodoCancel(({ id }) => {
+    this.view.onEditTodoCancel(({ id }) => {
       this.editTodoCancel(id);
     });
 
-    this.view.removeCompleted(() => {
+    this.view.onRemoveCompleted(() => {
       this.removeCompleted();
     });
   }
@@ -54,12 +54,17 @@ export default class Controller {
     this.model.create(title, () => {
       this.view.render(Render.ClearNewTodo);
 
-      // todo 准备 传入 true
-      this.filter();
+      this.filter(true);
     });
   }
 
-  private removeTodo(id) {}
+  private removeTodo(id) {
+    this.model.delete(id, () => {
+      this.view.render(Render.RemoveTodo, id);
+    });
+
+    this.filter();
+  }
 
   private toggleTodo(id, completed) {}
 
@@ -96,8 +101,10 @@ export default class Controller {
 
     this.updateCount();
 
-    // todo 仔细思考原文一系列判断是何用意
-    this[`show${activeRoute}`]();
+    // todo 尚欠缺 this.lastActiveRoute !== 'All' 判断
+    if (force || this.lastActiveRoute !== activeRoute) {
+      this[`show${activeRoute}`]();
+    }
 
     this.lastActiveRoute = activeRoute;
   }

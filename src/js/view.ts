@@ -1,5 +1,5 @@
 import Template from "./template";
-import { $, $on, $parent } from "./helpers";
+import { $, $on, $parent, $delegate } from "./helpers";
 import { Render } from "./constants";
 
 export default class View {
@@ -26,38 +26,39 @@ export default class View {
     return parseInt(li.dataset.id, 10);
   }
 
-  // 新增条目
-  addTodo(handler) {
+  // 监听事件：新增条目
+  onAddTodo(handler) {
     $on(this.$new, "change", () => {
       handler({ title: this.$new.value });
     });
   }
 
-  // 移除条目
-  removeTodo(handler) {
-    $on(this.$clearCompleted, "click", event => {
+  // 监听事件：移除条目
+  onRemoveTodo(handler: (id: number) => void) {
+    $delegate(this.$list, ".destroy", "click", event => {
       const id = this.getItemId(event.target);
-      handler({ id });
+
+      handler(id);
     });
   }
 
-  // 切换条目完成与否
-  toggleTodo(handler) {}
+  // 监听事件：切换条目完成与否
+  onToggleTodo(handler) {}
 
-  // 切换全部条目的完成与否
-  toggleAllTodo(handler) {}
+  // 监听事件：切换全部条目的完成与否
+  onToggleAllTodo(handler) {}
 
-  // 编辑条目
-  editTodo(handler) {}
+  // 监听事件：编辑条目
+  onEeditTodo(handler) {}
 
-  // 完成条目编辑
-  editTodoDone(handler) {}
+  // 监听事件：完成条目编辑
+  onEditTodoDone(handler) {}
 
-  // 放弃条目编辑
-  editTodoCancel(handler) {}
+  // 监听事件：放弃条目编辑
+  onEditTodoCancel(handler) {}
 
-  // 删除所有完成条目
-  removeCompleted(handler) {}
+  // 监听事件：删除所有完成条目
+  onRemoveCompleted(handler) {}
 
   // 渲染页面
   // todo 准备转为 Render 类型定义
@@ -80,5 +81,11 @@ export default class View {
 
   private [Render.UpdateElementCount](active: number) {
     this.$counter.innerHTML = this.template.todoCounter(active);
+  }
+
+  private [Render.RemoveTodo](id) {
+    const el = $(`[data-id="${id}"]`);
+
+    el && this.$list.removeChild(el);
   }
 }

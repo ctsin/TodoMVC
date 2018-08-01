@@ -10,18 +10,12 @@ export const $on: eventHandler = (target, type, handler, capture = false) => {
   target.addEventListener(type, handler, capture);
 };
 
-export const $delegate = (
-  target: EventTarget,
-  selector: string,
-  type: string,
-  handler: (event?) => void
-) => {
+export const $delegate = (target, selector, type, handler) => {
   const dispatchEvent = event => {
-    const target = event.target;
     const potentailElements = $$(selector, target);
-    const hasMatch = Array.from(potentailElements).indexOf(target) > -1;
+    const hasMatch = Array.from(potentailElements).indexOf(event.target) > -1;
 
-    hasMatch && handler.call(target, event);
+    hasMatch && handler.call(event.target, event);
   };
 
   const capture = type === "blur" || type === "focus";
