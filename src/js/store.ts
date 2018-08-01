@@ -44,12 +44,12 @@ export default class Store {
     callback(todos);
   }
 
-  remove(id, callback: (todos: Todo[]) => void) {
+  remove(id, callback: () => void) {
     const data = JSON.parse(localStorage[this.name]);
     const todos: Todo[] = data.todos;
 
     for (let i = 0, length = todos.length; i < length; i++) {
-      if ((todos[i].id = id)) {
+      if (todos[i].id === id) {
         todos.splice(i, 1);
         break;
       }
@@ -57,7 +57,7 @@ export default class Store {
 
     localStorage[this.name] = JSON.stringify(data);
 
-    callback(todos);
+    callback();
   }
 
   drop(callback: () => void) {

@@ -29,7 +29,7 @@ export default class View {
   // 监听事件：新增条目
   onAddTodo(handler) {
     $on(this.$new, "change", () => {
-      handler({ title: this.$new.value });
+      handler(this.$new.value);
     });
   }
 

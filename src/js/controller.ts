@@ -15,7 +15,7 @@ export default class Controller {
 
   // 监听 DOM 事件
   private on() {
-    this.view.onAddTodo(({ title }) => {
+    this.view.onAddTodo(title => {
       this.addTodo(title);
     });
 

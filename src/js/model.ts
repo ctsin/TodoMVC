@@ -28,9 +28,9 @@ export default class Model {
     }
   }
 
-  update(id: number, callback) {}
+  update(id: number, callback: () => void) {}
 
-  delete(id: number, callback) {
+  delete(id: number, callback: () => void) {
     this.store.remove(id, callback);
   }
 
