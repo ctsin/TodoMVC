@@ -6,7 +6,7 @@ export default class Store {
     localStorage[name] = localStorage[name] || JSON.stringify({ todos: [] });
   }
 
-  save(todo: Todo, callback = () => void 0) {
+  save(todo: Todo, callback: () => void) {
     const data = JSON.parse(localStorage[this.name]);
     const todos: Todo[] = data.todos;
 
@@ -19,7 +19,7 @@ export default class Store {
     callback();
   }
 
-  find(query, callback) {
+  find(query, callback: (todos: Todo[]) => void) {
     if (!callback) return;
 
     const todos: Todo[] = JSON.parse(localStorage[this.name]).todos;
@@ -36,7 +36,7 @@ export default class Store {
   }
 
   // todo 准备与 find 合并
-  findAll(callback) {
+  findAll(callback: (todos: Todo[]) => void) {
     if (!callback) return;
 
     const todos: Todo[] = JSON.parse(localStorage[this.name]).todos;

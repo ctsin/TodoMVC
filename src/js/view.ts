@@ -78,7 +78,7 @@ export default class View {
     $(`.filters [href="#/${currentPage}"]`).classList.add("selected");
   }
 
-  private [Render.UpdateElementCount](active) {
+  private [Render.UpdateElementCount](active: number) {
     this.$counter.innerHTML = this.template.todoCounter(active);
   }
 }

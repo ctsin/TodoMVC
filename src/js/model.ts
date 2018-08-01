@@ -4,7 +4,7 @@ import { Todo, todosCount } from "./interface";
 export default class Model {
   constructor(private store: Store) {}
 
-  create(title: string = "", callback = () => void 0) {
+  create(title: string, callback: () => void) {
     const newTodo: Todo = {
       title,
       completed: false
@@ -28,11 +28,11 @@ export default class Model {
     }
   }
 
-  update(title, callback) {}
+  update(id, callback) {}
 
-  delete(title, callback) {}
+  delete(id, callback) {}
 
-  getCount(callback) {
+  getCount(callback: (active: number) => void) {
     const todosCount: todosCount = {
       active: 0,
       completed: 0,
@@ -46,6 +46,6 @@ export default class Model {
       });
     });
 
-    callback(todosCount.total);
+    callback(todosCount.active);
   }
 }

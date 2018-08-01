@@ -7,13 +7,13 @@ export default class Template {
         const { id, title, completed } = todo;
 
         return `
-          <li data-id="${id}" class="${completed}">
+          <li data-id="${id}" ${completed ? `class="completed"` : ``}>
             <div class="view">
               <input 
                 class="toggle" 
                 type="checkbox" 
                 autocompleted="off" 
-                ${completed && "checked"}
+                ${completed ? `checked` : ``}
               >
               <label>${title}</label>
               <button class="destroy"></button>

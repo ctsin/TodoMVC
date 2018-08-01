@@ -103,8 +103,8 @@ export default class Controller {
   }
 
   private updateCount() {
-    this.model.getCount(todos => {
-      this.view.render(Render.UpdateElementCount, todos.active);
+    this.model.getCount((active: number) => {
+      this.view.render(Render.UpdateElementCount, active);
     });
   }
 
