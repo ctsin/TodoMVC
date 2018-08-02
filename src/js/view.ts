@@ -1,6 +1,7 @@
 import Template from "./template";
 import { $, $on, $parent, $delegate } from "./helpers";
 import { Render } from "./constants";
+import { toggleTodo } from "./interface";
 
 export default class View {
   private $new;
@@ -27,7 +28,7 @@ export default class View {
   }
 
   // 监听事件：新增条目
-  onAddTodo(handler) {
+  onAddTodo(handler: (title: string) => void) {
     $on(this.$new, "change", () => {
       handler(this.$new.value);
     });
@@ -43,7 +44,17 @@ export default class View {
   }
 
   // 监听事件：切换条目完成与否
-  onToggleTodo(handler) {}
+  onToggleTodo(handler: (todo: toggleTodo) => void) {
+    $delegate(this.$list, ".toggle", "click", event => {
+      const id = this.getItemId(event.target);
+      const completed = event.target.checked;
+
+      handler({
+        id,
+        completed
+      });
+    });
+  }
 
   // 监听事件：切换全部条目的完成与否
   onToggleAllTodo(handler) {}
@@ -87,5 +98,10 @@ export default class View {
     const el = $(`[data-id="${id}"]`);
 
     el && this.$list.removeChild(el);
+  }
+
+  private [Render.ElementComplete](toggleTodo: toggleTodo) {
+    const { id, completed } = toggleTodo;
+    console.table({ id, completed });
   }
 }

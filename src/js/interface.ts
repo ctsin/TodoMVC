@@ -18,3 +18,8 @@ export interface todosCount {
   completed: number;
   total: number;
 }
+
+export interface toggleTodo {
+  id: number;
+  completed: boolean;
+}
