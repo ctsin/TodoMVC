@@ -1,7 +1,7 @@
 import Template from "./template";
 import { $, $on, $parent, $delegate } from "./helpers";
 import { Render } from "./constants";
-import { toggleTodo } from "./interface";
+import { Todo } from "./interface";
 
 export default class View {
   private $new;
@@ -44,7 +44,7 @@ export default class View {
   }
 
   // 监听事件：切换条目完成与否
-  onToggleTodo(handler: (todo: toggleTodo) => void) {
+  onToggleTodo(handler: (todo: Todo) => void) {
     $delegate(this.$list, ".toggle", "click", event => {
       const id = this.getItemId(event.target);
       const completed = event.target.checked;
@@ -100,8 +100,11 @@ export default class View {
     el && this.$list.removeChild(el);
   }
 
-  private [Render.ElementComplete](toggleTodo: toggleTodo) {
+  private [Render.CompleteTodo](toggleTodo: Todo) {
     const { id, completed } = toggleTodo;
-    console.table({ id, completed });
+
+    const todo = $(`[data-id="${id}"]`);
+
+    todo.classList.toggle("completed", completed);
   }
 }

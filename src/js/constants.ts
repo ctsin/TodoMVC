@@ -10,7 +10,7 @@ export enum Render {
   ClearCompletedButton,
   CountentBlockVisibility,
   ToggleAll,
-  ElementComplete,
+  CompleteTodo,
   ClearNewTodo,
   SetFilter
 }

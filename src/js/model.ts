@@ -1,5 +1,5 @@
 import Store from "./store";
-import { Todo, todosCount, toggleTodo } from "./interface";
+import { Todo, todosCount } from "./interface";
 
 export default class Model {
   constructor(private store: Store) {}
@@ -28,11 +28,8 @@ export default class Model {
     }
   }
 
-  update(toggleTodo: toggleTodo, callback: () => void) {
-    const { id, completed } = toggleTodo;
-    console.table({ id1: id, completed });
-
-    callback();
+  update(todoToggled: Todo, callback) {
+    this.store.save(todoToggled, callback);
   }
 
   delete(id: number, callback: () => void) {

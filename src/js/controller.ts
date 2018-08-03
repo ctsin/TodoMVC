@@ -1,7 +1,7 @@
 import Model from "./model";
 import View from "./view";
 import { Render } from "./constants";
-import { toggleTodo } from "./interface";
+import { Todo } from "./interface";
 
 export default class Controller {
   private activeRoute: string;
@@ -24,8 +24,8 @@ export default class Controller {
       this.removeTodo(id);
     });
 
-    this.view.onToggleTodo(toggleTodo => {
-      this.toggleTodo(toggleTodo);
+    this.view.onToggleTodo(todoToggled => {
+      this.toggleTodo(todoToggled);
     });
 
     this.view.onToggleAllTodo(({ completed }) => {
@@ -67,9 +67,9 @@ export default class Controller {
     this.filter();
   }
 
-  private toggleTodo(toggleTodo: toggleTodo, silent = false) {
-    this.model.update(toggleTodo, () => {
-      this.view.render(Render.ElementComplete, toggleTodo);
+  private toggleTodo(todoToggled: Todo, silent = false) {
+    this.model.update(todoToggled, () => {
+      this.view.render(Render.CompleteTodo, todoToggled);
     });
 
     !silent && this.filter();

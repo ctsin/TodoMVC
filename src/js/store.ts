@@ -6,17 +6,30 @@ export default class Store {
     localStorage[name] = localStorage[name] || JSON.stringify({ todos: [] });
   }
 
-  save(todo: Todo, callback: () => void) {
+  save(todo: Todo, callback = () => void 0) {
     const data = JSON.parse(localStorage[this.name]);
     const todos: Todo[] = data.todos;
+    const { id } = todo;
 
-    todo.id = new Date().getTime();
+    if (id) {
+      for (let i = 0, length = todos.length; i < length; i++) {
+        if (todos[i].id === id) {
+          for (const key in todo) {
+            todos[i][key] = todo[key];
+          }
+        }
+      }
 
-    todos.push(todo);
+      localStorage[this.name] = JSON.stringify(data);
 
-    localStorage[this.name] = JSON.stringify(data);
+      callback();
+    } else {
+      todo.id = new Date().getTime();
+      todos.push(todo);
+      localStorage[this.name] = JSON.stringify(data);
 
-    callback();
+      callback();
+    }
   }
 
   find(query, callback: (todos: Todo[]) => void) {

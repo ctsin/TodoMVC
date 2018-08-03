@@ -1,7 +1,7 @@
 export interface Todo {
   id?: number;
-  title: string;
-  completed: boolean;
+  title?: string;
+  completed?: boolean;
 }
 
 export interface eventHandler {
@@ -17,9 +17,4 @@ export interface todosCount {
   active: number;
   completed: number;
   total: number;
-}
-
-export interface toggleTodo {
-  id: number;
-  completed: boolean;
 }
