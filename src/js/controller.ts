@@ -28,8 +28,8 @@ export default class Controller {
       this.toggleTodo(todoToggled);
     });
 
-    this.view.onToggleAllTodo(({ completed }) => {
-      this.toggleAllTodo(completed);
+    this.view.onToggleAllTodo(status => {
+      this.toggleAllTodo(status);
     });
 
     this.view.onEeditTodo(({ id }) => {
@@ -75,7 +75,15 @@ export default class Controller {
     !silent && this.filter();
   }
 
-  private toggleAllTodo(completed) {}
+  private toggleAllTodo(completed: boolean) {
+    this.model.read({ completed: !completed }, (todos: Todo[]) => {
+      todos.forEach(todo => {
+        const { id, completed } = todo;
+
+        this.toggleTodo({ id, completed: !completed });
+      });
+    });
+  }
 
   private editTodo(id) {}
 

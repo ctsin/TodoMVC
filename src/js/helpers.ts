@@ -1,12 +1,10 @@
-import { eventHandler } from "./interface";
-
 export const $ = (selector, scope = document): Element =>
   scope.querySelector(selector);
 
 export const $$ = (selector, scope = document): NodeList =>
   scope.querySelectorAll(selector);
 
-export const $on: eventHandler = (target, type, handler, capture = false) => {
+export const $on = (target, type, handler, capture = false) => {
   target.addEventListener(type, handler, capture);
 };
 

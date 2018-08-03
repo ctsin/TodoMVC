@@ -45,19 +45,20 @@ export default class View {
 
   // 监听事件：切换条目完成与否
   onToggleTodo(handler: (todo: Todo) => void) {
-    $delegate(this.$list, ".toggle", "click", event => {
+    $delegate(this.$list, ".toggle", "change", event => {
       const id = this.getItemId(event.target);
       const completed = event.target.checked;
 
-      handler({
-        id,
-        completed
-      });
+      handler({ id, completed });
     });
   }
 
   // 监听事件：切换全部条目的完成与否
-  onToggleAllTodo(handler) {}
+  onToggleAllTodo(handler: (status: boolean) => void) {
+    $on(this.$toggleAll, "change", event => {
+      handler(event.target.checked);
+    });
+  }
 
   // 监听事件：编辑条目
   onEeditTodo(handler) {}

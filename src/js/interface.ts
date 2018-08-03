@@ -4,16 +4,7 @@ export interface Todo {
   completed?: boolean;
 }
 
-export interface eventHandler {
-  (
-    target: EventTarget,
-    type: string,
-    handler: (event: Event) => void,
-    capture?: boolean
-  ): void;
-}
-
-export interface todosCount {
+export interface TodosCount {
   active: number;
   completed: number;
   total: number;
