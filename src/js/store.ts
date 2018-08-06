@@ -10,7 +10,6 @@ export default class Store {
     const data = JSON.parse(localStorage[this.name]);
     const todos: Todo[] = data.todos;
     const { id } = todo;
-    console.log("todo :", todo);
 
     if (id) {
       for (let i = 0, length = todos.length; i < length; i++) {

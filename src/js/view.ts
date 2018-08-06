@@ -107,5 +107,7 @@ export default class View {
     const todo = $(`[data-id="${id}"]`);
 
     todo.classList.toggle("completed", completed);
+
+    $("input", todo).checked = completed;
   }
 }

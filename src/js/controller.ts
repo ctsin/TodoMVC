@@ -80,9 +80,11 @@ export default class Controller {
       todos.forEach(todo => {
         const { id, completed } = todo;
 
-        this.toggleTodo({ id, completed: !completed });
+        this.toggleTodo({ id, completed: !completed }, true);
       });
     });
+
+    this.filter();
   }
 
   private editTodo(id) {}

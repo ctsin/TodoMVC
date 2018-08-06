@@ -1,7 +1,6 @@
-export const $ = (selector, scope = document): Element =>
-  scope.querySelector(selector);
+export const $ = (selector, scope = document) => scope.querySelector(selector);
 
-export const $$ = (selector, scope = document): NodeList =>
+export const $$ = (selector, scope = document) =>
   scope.querySelectorAll(selector);
 
 export const $on = (target, type, handler, capture = false) => {
