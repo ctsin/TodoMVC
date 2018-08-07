@@ -70,7 +70,11 @@ export default class View {
   onEditTodoCancel(handler) {}
 
   // 监听事件：删除所有完成条目
-  onRemoveCompleted(handler) {}
+  onRemoveCompleted(handler) {
+    $on(this.$clearCompleted, "click", () => {
+      handler();
+    });
+  }
 
   // 渲染页面
   // todo 准备转为 Render 类型定义

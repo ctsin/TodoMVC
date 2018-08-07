@@ -93,7 +93,17 @@ export default class Controller {
 
   private editTodoCancel(id) {}
 
-  private removeCompleted() {}
+  private removeCompleted() {
+    this.model.read({ completed: true }, (todos: Todo[]) => {
+      todos.forEach(todo => {
+        const { id } = todo;
+
+        this.removeTodo(id);
+      });
+    });
+
+    this.filter();
+  }
 
   public setView(locationHash: string) {
     const route = locationHash.split("/")[1];
