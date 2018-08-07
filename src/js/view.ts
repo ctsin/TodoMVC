@@ -1,6 +1,6 @@
 import Template from "./template";
 import { $, $on, $parent, $delegate } from "./helpers";
-import { Render } from "./constants";
+import { Render, ENTER_KEY, ESCAPE_KEY } from "./constants";
 import { Todo } from "./interface";
 
 export default class View {
@@ -61,13 +61,43 @@ export default class View {
   }
 
   // 监听事件：编辑条目
-  onEditTodo(handler) {}
+  onEditTodo(handler: (id: number) => void) {
+    $delegate(this.$list, "li label", "dblclick", event => {
+      const id = this.getItemId(event.target);
+
+      handler(id);
+    });
+  }
 
   // 监听事件：完成条目编辑
-  onEditTodoDone(handler) {}
+  onEditTodoDone(handler: (todo: Todo) => void) {
+    $delegate(this.$list, "li .edit", "blur", event => {
+      if (!event.target.dataset.iscanceled) {
+        const id = this.getItemId(event.target);
+        const title = event.target.value;
+
+        handler({ id, title });
+      }
+    });
+
+    $delegate(this.$list, "li .edit", "keypress", event => {
+      event.keyCode === ENTER_KEY && event.target.blur();
+    });
+  }
 
   // 监听事件：放弃条目编辑
-  onEditTodoCancel(handler) {}
+  onEditTodoCancel(handler: (id: number) => void) {
+    $delegate(this.$list, "li .edit", "keyup", event => {
+      if (event.keyCode === ESCAPE_KEY) {
+        event.target.dataset.iscanceled = true;
+        event.target.blur();
+
+        const id = this.getItemId(event.target);
+
+        handler(id);
+      }
+    });
+  }
 
   // 监听事件：删除所有完成条目
   onRemoveCompleted(handler) {
@@ -119,5 +149,32 @@ export default class View {
     todo.classList.toggle("completed", completed);
 
     $("input", todo).checked = completed;
+  }
+
+  // 渲染：编辑条目
+  private [Render.EditTodos](todo: Todo) {
+    const { id, title } = todo;
+    const editing = $(`[data-id="${id}"]`);
+
+    editing.classList.add("editing");
+
+    const input = document.createElement("input");
+    input.className = "edit";
+
+    editing.appendChild(input);
+    input.focus();
+    input.value = title;
+  }
+
+  // 渲染：完成编辑条目
+  private [Render.EditTodosDone](todo: Todo) {
+    const { id, title } = todo;
+    const editing = $(`[data-id="${id}"]`);
+    const input = $(".edit", editing);
+
+    editing.removeChild(input);
+    editing.classList.remove("editing");
+
+    $("label", editing).textContent = title;
   }
 }

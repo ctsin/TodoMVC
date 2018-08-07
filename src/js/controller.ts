@@ -32,15 +32,15 @@ export default class Controller {
       this.toggleAllTodo(status);
     });
 
-    this.view.onEditTodo(({ id }) => {
+    this.view.onEditTodo(id => {
       this.editTodo(id);
     });
 
-    this.view.onEditTodoDone(({ id, title }) => {
-      this.editTodoDone(id, title);
+    this.view.onEditTodoDone((todo: Todo) => {
+      this.editTodoDone(todo);
     });
 
-    this.view.onEditTodoCancel(({ id }) => {
+    this.view.onEditTodoCancel(id => {
       this.editTodoCancel(id);
     });
 
@@ -87,11 +87,34 @@ export default class Controller {
     this.filter();
   }
 
-  private editTodo(id) {}
+  private editTodo(id) {
+    this.model.read(id, (todo: Todo[]) => {
+      const title = todo[0].title;
 
-  private editTodoDone(id, title) {}
+      this.view.render(Render.EditTodos, { id, title });
+    });
+  }
 
-  private editTodoCancel(id) {}
+  private editTodoDone(todo: Todo) {
+    let { id, title } = todo;
+
+    title = title.trim();
+
+    if (title.length !== 0) {
+      this.model.update({ id, title }, () => {
+        this.view.render(Render.EditTodosDone, { id, title });
+      });
+    } else {
+    }
+  }
+
+  private editTodoCancel(id: number) {
+    this.model.read(id, (todo: Todo) => {
+      const title = todo[0].title;
+
+      this.view.render(Render.EditTodosDone, { id, title });
+    });
+  }
 
   private removeCompleted() {
     this.model.read({ completed: true }, (todos: Todo[]) => {
