@@ -1,6 +1,5 @@
 import { Todo } from "./interface";
 
-// todo 准备使用泛型实现
 export default class Store {
   constructor(private name: string = "todomvc-typescript") {
     localStorage[name] = localStorage[name] || JSON.stringify({ todos: [] });

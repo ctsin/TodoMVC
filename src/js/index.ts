@@ -1,7 +1,7 @@
-import Todo from "./app";
+import TodoApp from "./app";
 import "todomvc-app-css";
 
-const todo = new Todo("todomvc-typescript");
+const todo = new TodoApp("todomvc-typescript");
 
 const setView = () => {
   todo.controller.setView(document.location.hash);

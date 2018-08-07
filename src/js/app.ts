@@ -4,7 +4,7 @@ import Template from "./template";
 import View from "./view";
 import Controller from "./controller";
 
-export default class Todo {
+export default class TodoApp {
   private store: Store;
   private model: Model;
   private template: Template;
