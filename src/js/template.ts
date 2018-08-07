@@ -25,7 +25,7 @@ export default class Template {
   }
 
   todoCounter(active) {
-    const plural = active === 1 ? "" : "s";
+    const plural = active < 2 ? "" : "s";
 
     return `
       <strong>${active}</strong> item${plural} left

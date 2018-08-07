@@ -117,6 +117,21 @@ export default class View {
     this.$new.value = "";
   }
 
+  // 渲染：列表视图可见性
+  private [Render.CountentBlockVisibility](visible: boolean) {
+    this.$main.hidden = this.$footer.hidden = !visible;
+  }
+
+  // 渲染：“清除所有完成项”按钮可见性
+  private [Render.ClearCompletedButton](visible: boolean) {
+    this.$clearCompleted.hidden = !visible;
+  }
+
+  // 渲染：同步“选择全部”表单项
+  private [Render.ToggleAll](allChecked: boolean) {
+    this.$toggleAll.checked = allChecked;
+  }
+
   // 渲染：列表
   private [Render.ShowEntries](todos) {
     this.$list.innerHTML = this.template.show(todos);

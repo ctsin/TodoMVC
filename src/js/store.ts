@@ -26,7 +26,7 @@ export default class Store {
 
       callback();
     } else {
-      todo.id = new Date().getTime();
+      todo.id = Date.now();
       todos.push(todo);
       localStorage[this.name] = JSON.stringify(data);
 

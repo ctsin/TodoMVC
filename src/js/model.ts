@@ -41,7 +41,7 @@ export default class Model {
     this.store.remove(id, callback);
   }
 
-  getCount(callback: (active: number) => void) {
+  getCount(callback: (todosCount: TodosCount) => void) {
     const todosCount: TodosCount = {
       active: 0,
       completed: 0,
@@ -55,6 +55,6 @@ export default class Model {
       });
     });
 
-    callback(todosCount.active);
+    callback(todosCount);
   }
 }

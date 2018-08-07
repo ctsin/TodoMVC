@@ -1,7 +1,7 @@
 import Model from "./model";
 import View from "./view";
 import { Render } from "./constants";
-import { Todo } from "./interface";
+import { Todo, TodosCount } from "./interface";
 
 export default class Controller {
   private activeRoute: string;
@@ -160,8 +160,13 @@ export default class Controller {
   }
 
   private updateCount() {
-    this.model.getCount((active: number) => {
+    this.model.getCount((todosCount: TodosCount) => {
+      const { active, completed, total } = todosCount;
+
       this.view.render(Render.UpdateElementCount, active);
+      this.view.render(Render.ClearCompletedButton, completed > 0);
+      this.view.render(Render.ToggleAll, completed === total);
+      this.view.render(Render.CountentBlockVisibility, total > 0);
     });
   }
 
