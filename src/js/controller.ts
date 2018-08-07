@@ -47,6 +47,14 @@ export default class Controller {
     this.view.onRemoveCompleted(() => {
       this.removeCompleted();
     });
+
+    this.view.onHashChange(hash => {
+      this.setView(hash);
+    });
+
+    this.view.onLoad(hash => {
+      this.setView(hash);
+    });
   }
 
   private addTodo(title: string) {
@@ -128,7 +136,7 @@ export default class Controller {
     this.filter();
   }
 
-  public setView(locationHash: string) {
+  private setView(locationHash: string) {
     const route = locationHash.split("/")[1];
     const page = route || "";
 

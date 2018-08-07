@@ -106,6 +106,20 @@ export default class View {
     });
   }
 
+  // 监听事件：页面载入完成
+  onLoad(handler) {
+    $on(window, "load", () => {
+      handler(document.location.hash);
+    });
+  }
+
+  // 监听事件：路由改变
+  onHashChange(handler) {
+    $on(window, "hashchange", () => {
+      handler(document.location.hash);
+    });
+  }
+
   // 渲染页面
   // todo 准备转为 Render 类型定义
   render(command, parameter?) {
