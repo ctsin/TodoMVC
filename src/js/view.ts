@@ -61,7 +61,7 @@ export default class View {
   }
 
   // 监听事件：编辑条目
-  onEeditTodo(handler) {}
+  onEditTodo(handler) {}
 
   // 监听事件：完成条目编辑
   onEditTodoDone(handler) {}
@@ -82,29 +82,35 @@ export default class View {
     this[command](parameter);
   }
 
+  // 渲染：清理输入框
   private [Render.ClearNewTodo]() {
     this.$new.value = "";
   }
 
+  // 渲染：列表
   private [Render.ShowEntries](todos) {
     this.$list.innerHTML = this.template.show(todos);
   }
 
+  // 渲染：底部过滤器
   private [Render.SetFilter](currentPage) {
     $(".filters .selected").classList.remove("selected");
     $(`.filters [href="#/${currentPage}"]`).classList.add("selected");
   }
 
+  // 渲染：底部计数
   private [Render.UpdateElementCount](active: number) {
     this.$counter.innerHTML = this.template.todoCounter(active);
   }
 
-  private [Render.RemoveTodo](id) {
+  // 渲染：移除一条
+  private [Render.RemoveTodo](id: number) {
     const el = $(`[data-id="${id}"]`);
 
     el && this.$list.removeChild(el);
   }
 
+  // 渲染：切换完成状态
   private [Render.CompleteTodo](toggleTodo: Todo) {
     const { id, completed } = toggleTodo;
 

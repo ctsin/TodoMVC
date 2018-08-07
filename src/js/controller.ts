@@ -32,7 +32,7 @@ export default class Controller {
       this.toggleAllTodo(status);
     });
 
-    this.view.onEeditTodo(({ id }) => {
+    this.view.onEditTodo(({ id }) => {
       this.editTodo(id);
     });
 
