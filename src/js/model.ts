@@ -20,9 +20,14 @@ export default class Model {
       case "function":
         callback = query;
         this.store.findAll(callback);
-      case "string" || "number":
+        break;
+
+      case "string":
+      case "number":
         query = parseInt(query, 10);
         this.store.find({ id: query }, callback);
+        break;
+
       default:
         this.store.find(query, callback);
     }
