@@ -6,16 +6,9 @@
   },
   "env": {
     "es6": true,
-    "browser": true,
-    "jquery": true
+    "browser": true
   },
   "globals": {
-    "todo": true,
-    "app": true,
-    "qs": true,
-    "qsa": true,
-    "$on": true,
-    "$delegate": true,
-    "$parent": true
+    "todo": true
   }
 }
