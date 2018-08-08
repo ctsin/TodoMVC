@@ -159,8 +159,11 @@ export default class Controller {
 
     this.updateCount();
 
-    // todo 尚欠缺 this.lastActiveRoute !== 'All' 判断
-    if (force || this.lastActiveRoute !== activeRoute) {
+    if (
+      force ||
+      this.lastActiveRoute !== "All" ||
+      this.lastActiveRoute !== activeRoute
+    ) {
       this[`show${activeRoute}`]();
     }
 

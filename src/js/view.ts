@@ -199,6 +199,12 @@ export default class View {
 
     const todo = $(`[data-id="${id}"]`);
 
+    /**
+     * 当在 'Active' 和 'Completed' 路由时，点击 'toggleAll'.
+     * 因强制不刷新 filter，DOM还未就绪，所有这里直接返回，等待最后一并刷新。
+     */
+    if (!todo) return;
+
     todo.classList.toggle("completed", completed);
 
     $("input", todo).checked = completed;
