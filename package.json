@@ -15,7 +15,7 @@
     "todomvc-app-css": "^2.1.2"
   },
   "scripts": {
-    "dev": "parcel ./src/index.html -p 5500",
-    "re": "rimraf .cache/ dist/ && yarn dev"
+    "dev": "parcel ./src/index.html -p 5500 -d docs",
+    "re": "rimraf .cache/ docs/ && yarn dev"
   }
 }
