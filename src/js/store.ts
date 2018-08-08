@@ -16,7 +16,6 @@ export default class Store {
           for (let key in todo) {
             todos[i][key] = todo[key];
           }
-
           break;
         }
       }
