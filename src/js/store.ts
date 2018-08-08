@@ -49,8 +49,7 @@ export default class Store {
     callback(filter);
   }
 
-  // todo 准备与 find 合并
-  findAll(callback: (todos: Todo[]) => void) {
+  all(callback: (todos: Todo[]) => void) {
     if (!callback) return;
 
     const todos: Todo[] = JSON.parse(localStorage[this.name]).todos;
@@ -71,10 +70,6 @@ export default class Store {
 
     localStorage[this.name] = JSON.stringify(data);
 
-    callback();
-  }
-
-  drop(callback: () => void) {
     callback();
   }
 }

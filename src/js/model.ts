@@ -19,7 +19,7 @@ export default class Model {
     switch (queryType) {
       case "function":
         callback = query;
-        this.store.findAll(callback);
+        this.store.all(callback);
         break;
 
       case "string":
@@ -48,7 +48,7 @@ export default class Model {
       total: 0
     };
 
-    this.store.findAll(data => {
+    this.store.all(data => {
       data.forEach(todo => {
         todo.completed ? todosCount.completed++ : todosCount.active++;
         todosCount.total++;
