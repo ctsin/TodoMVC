@@ -1,25 +1,5 @@
 export const $ = (selector, scope = document) => scope.querySelector(selector);
 
-export const $$ = (selector, scope = document) =>
-  scope.querySelectorAll(selector);
-
-export const $on = (target, type, handler, capture = false) => {
-  target.addEventListener(type, handler, capture);
-};
-
-export const $delegate = (target, selector, type, handler) => {
-  const dispatchEvent = event => {
-    const potentailElements = $$(selector, target);
-    const hasMatch = Array.from(potentailElements).indexOf(event.target) > -1;
-
-    hasMatch && handler.call(event.target, event);
-  };
-
-  const capture = type === "blur" || type === "focus";
-
-  $on(target, type, dispatchEvent, capture);
-};
-
 export const $parent = (element, tagName) => {
   if (!element.parentNode) return;
 
@@ -28,4 +8,22 @@ export const $parent = (element, tagName) => {
   }
 
   return $parent(element.parentNode, tagName);
+};
+
+export const $on = (
+  element,
+  event,
+  fn,
+  options: { target?: string; capture?: boolean } = {}
+) => {
+  const delegatorFn = e =>
+    e.target.matches(options.target) && fn.call(e.target, e);
+
+  element.addEventListener(
+    event,
+    options.target ? delegatorFn : fn,
+    options.capture || false
+  );
+
+  if (options.target) return delegatorFn;
 };

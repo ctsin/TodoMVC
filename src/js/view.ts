@@ -1,5 +1,5 @@
 import Template from "./template";
-import { $, $on, $parent, $delegate } from "./helpers";
+import { $, $parent, $on } from "./helpers";
 import { Render, ENTER_KEY, ESCAPE_KEY } from "./constants";
 import { Todo } from "./interface";
 
@@ -36,21 +36,29 @@ export default class View {
 
   // 监听事件：移除条目
   onRemoveTodo(handler: (id: number) => void) {
-    $delegate(this.$list, ".destroy", "click", event => {
-      const id = this.getItemId(event.target);
-
-      handler(id);
-    });
+    $on(
+      this.$list,
+      "click",
+      event => {
+        const id = this.getItemId(event.target);
+        handler(id);
+      },
+      { target: ".destroy" }
+    );
   }
 
   // 监听事件：切换条目完成与否
   onToggleTodo(handler: (todo: Todo) => void) {
-    $delegate(this.$list, ".toggle", "change", event => {
-      const id = this.getItemId(event.target);
-      const completed = event.target.checked;
-
-      handler({ id, completed });
-    });
+    $on(
+      this.$list,
+      "change",
+      event => {
+        const id = this.getItemId(event.target);
+        const completed = event.target.checked;
+        handler({ id, completed });
+      },
+      { target: ".toggle" }
+    );
   }
 
   // 监听事件：切换全部条目的完成与否
@@ -62,41 +70,58 @@ export default class View {
 
   // 监听事件：编辑条目
   onEditTodo(handler: (id: number) => void) {
-    $delegate(this.$list, "li label", "dblclick", event => {
-      const id = this.getItemId(event.target);
-
-      handler(id);
-    });
+    $on(
+      this.$list,
+      "dblclick",
+      event => {
+        const id = this.getItemId(event.target);
+        handler(id);
+      },
+      { target: "li label" }
+    );
   }
 
   // 监听事件：完成条目编辑
   onEditTodoDone(handler: (todo: Todo) => void) {
-    $delegate(this.$list, "li .edit", "blur", event => {
-      if (!event.target.dataset.iscanceled) {
-        const id = this.getItemId(event.target);
-        const title = event.target.value;
+    $on(
+      this.$list,
+      "blur",
+      event => {
+        if (!event.target.dataset.iscanceled) {
+          const id = this.getItemId(event.target);
+          const title = event.target.value;
+          handler({ id, title });
+        }
+      },
+      { target: "li .edit", capture: true }
+    );
 
-        handler({ id, title });
-      }
-    });
-
-    $delegate(this.$list, "li .edit", "keypress", event => {
-      event.keyCode === ENTER_KEY && event.target.blur();
-    });
+    $on(
+      this.$list,
+      "keypress",
+      event => {
+        event.keyCode === ENTER_KEY && event.target.blur();
+      },
+      { target: "li .edit" }
+    );
   }
 
   // 监听事件：放弃条目编辑
   onEditTodoCancel(handler: (id: number) => void) {
-    $delegate(this.$list, "li .edit", "keyup", event => {
-      if (event.keyCode === ESCAPE_KEY) {
-        event.target.dataset.iscanceled = true;
-        event.target.blur();
+    $on(
+      this.$list,
+      "keyup",
+      event => {
+        if (event.keyCode === ESCAPE_KEY) {
+          event.target.dataset.iscanceled = true;
+          event.target.blur();
 
-        const id = this.getItemId(event.target);
-
-        handler(id);
-      }
-    });
+          const id = this.getItemId(event.target);
+          handler(id);
+        }
+      },
+      { target: "li .edit" }
+    );
   }
 
   // 监听事件：删除所有完成条目
@@ -121,7 +146,6 @@ export default class View {
   }
 
   // 渲染页面
-  // todo 准备转为 Render 类型定义
   render(command, parameter?) {
     this[command](parameter);
   }
