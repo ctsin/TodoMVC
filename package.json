@@ -4,13 +4,14 @@
   "author": "邢贵志 <xinggz@zhongan.com.cn>",
   "license": "MIT",
   "devDependencies": {
-    "babel-eslint": "^8.2.5",
     "eslint": "^5.0.1",
-    "node-sass": "^4.9.0"
+    "node-sass": "^4.9.0",
+    "parcel-bundler": "^1.9.7",
+    "typescript": "^3.0.1",
+    "typescript-eslint-parser": "^18.0.0"
   },
   "dependencies": {
-    "jquery": "^3.3.1",
-    "parcel-bundler": "^1.9.4"
+    "jquery": "^3.3.1"
   },
   "scripts": {
     "dev": "parcel ./src/index.html -p 5500",

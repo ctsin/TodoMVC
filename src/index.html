@@ -2,24 +2,21 @@
 <html>
 
 <head>
-	<title>Javascript MVC</title>
-	<script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="
-	 crossorigin="anonymous"></script>
+	<title>TodoMVC Lite</title>
 </head>
 
 <body>
 
 	<div class="js-container">
-		<input type="text" class="js-task-textbox" autocomplete="off">
-		<input type="button" class="js-add-task-button" value="Add Task" type="submit">
+		<input type="text" class="new-todo" autocomplete="off">
+		<input type="button" class="add-todo" value="新增" type="submit">
 
-		<div class="js-tasks-container"></div>
-		<!-- end tasks -->
-		<input type="button" class="js-complete-task-button" value="Complete Tasks">
-		<input type="button" class="js-delete-task-button" value="Delete Tasks">
+		<div class="todos-container"></div>
+
+		<input type="button" class="complete-todo" value="标记为完成">
+		<input type="button" class="delete-todo" value="删除">
 	</div>
 
-	<!-- end js-container -->
 	<script src="./js/app.ts"></script>
 </body>
 
