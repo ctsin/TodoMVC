@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "启动 Chrome 并打开 localhost",
       "url": "http://localhost:5500",
-      "webRoot": "${workspaceFolder}/src",
+      "webRoot": "${workspaceFolder}/dist",
       "skipFiles": ["node_modules"],
       "smartStep": true
     }

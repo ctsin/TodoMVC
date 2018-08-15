@@ -1,0 +1,36 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+.container {
+  max-width: 600px;
+  margin: 50px auto;
+}
+
+.new-todo {
+  width: 100%;
+  padding: 0.5em 1em;
+  appearance: none;
+  border: 1px solid lightblue;
+  border-radius: 3px;
+  font-size: 1.5em;
+
+  &::placeholder {
+    color: rgba($color: #000000, $alpha: 0.2);
+  }
+}
+
+.todos-container {
+  padding: 0;
+  list-style-type: none;
+
+  li {
+    margin-bottom: 0.5em;
+  }
+}
