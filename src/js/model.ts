@@ -28,6 +28,8 @@ export class Model {
    */
   private create(todo: Todo) {
     this.store.save(todo);
+
+    EventHub.$emit(RENDER.TODO_ADDED, todo);
   }
 
   /**

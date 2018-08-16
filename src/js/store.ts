@@ -1,6 +1,4 @@
 import { Todo } from "./interface";
-import { EventHub } from "./event-hub";
-import { RENDER } from "./constant";
 
 /**
  * 假装数据持久化
@@ -11,18 +9,23 @@ export class Store {
    * @param todo 经 Model 加工过的数据
    */
   save(todo: Todo) {
-    const data: Todo[] = this.query();
-
-    data.push(todo);
-    localStorage.setItem("todos", JSON.stringify(data));
-
-    EventHub.$emit(RENDER.TODO_ADDED, todo);
+    return this.query()
+      .then(todos => {
+        todos.push(todo);
+        return todos;
+      })
+      .then(todos => {
+        localStorage.setItem("todos", JSON.stringify(todos));
+      });
   }
 
   /**
    * 查询数据库
    */
   query() {
-    return JSON.parse(localStorage.getItem("todos")) || [];
+    return new Promise((resolve: (T: Todo[]) => void) => {
+      const todos: Todo[] = JSON.parse(localStorage.getItem("todos")) || [];
+      resolve(todos);
+    });
   }
 }
