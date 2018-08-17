@@ -1,11 +1,11 @@
-## 分享过程中的速记
+### 分享过程中的速记
 
-### Parcel 配置
+#### Parcel 配置
 
 - 演示自动 Parcel 自动安装插件：TypeScript；
 - HMR 问题，手动 `F5`。
 
-### 开车
+#### 开车
 
 - 传统的 MVC；
 - [TypeScript 类](http://www.typescriptlang.org/docs/handbook/classes.html) 和 [ES6 类](http://es6.ruanyifeng.com/#docs/class) 比较，增加了方法、属性的访问控制和 [泛型](http://www.typescriptlang.org/docs/handbook/generics.html)
@@ -20,14 +20,14 @@
 
 > 作业：使用 Async 改写 Store 中 Promise 实现
 
-### 穿插所用的插件、快捷键和技巧
+#### 穿插所用的插件、快捷键和技巧
 
 - [JavaScript (ES6) code snippets](https://marketplace.visualstudio.com/items?itemName=xabikos.JavaScriptSnippets) 插件，输出 ES6 代码片段；
 - [npm Intellisense](https://marketplace.visualstudio.com/items?itemName=christian-kohler.npm-intellisense) 自动引入模块;
 - 引用的 `F2` 重命名 及 `F12` 跳转
 - 安装 [Debugger for Chrome](https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome) 插件，`F5` 启动 VS Code Debug
 
-### 原生 JavaScript 片段
+#### 原生 JavaScript 片段
 
 - [30 秒传统手工工艺撸码](https://30secondsofcode.org/)，做个手艺人；
 - 《[你八层儿不需要 jQuery](http://youmightnotneedjquery.com/)》 和 《[你九层儿不需要 jQuery](https://github.com/nefe/You-Dont-Need-jQuery)》。
