@@ -1,4 +1,5 @@
-export const $ = (selector, scope = document) => scope.querySelector(selector);
+export const $ = <T>(selector, scope: HTMLElement | Document = document): T =>
+  scope.querySelector(selector);
 
 export const $parent = (element, tagName) => {
   if (!element.parentNode) return;

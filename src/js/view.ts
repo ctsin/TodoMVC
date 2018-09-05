@@ -4,13 +4,13 @@ import { Render, ENTER_KEY, ESCAPE_KEY } from "./constants";
 import { Todo } from "./interface";
 
 export default class View {
-  private $new;
-  private $list;
-  private $counter;
-  private $clearCompleted;
-  private $main;
-  private $footer;
-  private $toggleAll;
+  private $new: HTMLInputElement;
+  private $list: HTMLUListElement;
+  private $counter: HTMLSpanElement;
+  private $clearCompleted: HTMLButtonElement;
+  private $main: HTMLElement;
+  private $footer: HTMLElement;
+  private $toggleAll: HTMLInputElement;
 
   constructor(private template: Template) {
     this.$new = $(".new-todo");
@@ -177,8 +177,10 @@ export default class View {
 
   // 渲染：底部过滤器
   private [Render.SetFilter](currentPage) {
-    $(".filters .selected").classList.remove("selected");
-    $(`.filters [href="#/${currentPage}"]`).classList.add("selected");
+    $<HTMLAnchorElement>(".filters .selected").classList.remove("selected");
+    $<HTMLAnchorElement>(`.filters [href="#/${currentPage}"]`).classList.add(
+      "selected"
+    );
   }
 
   // 渲染：底部计数
@@ -188,7 +190,7 @@ export default class View {
 
   // 渲染：移除一条
   private [Render.RemoveTodo](id: number) {
-    const el = $(`[data-id="${id}"]`);
+    const el = $<HTMLLIElement>(`[data-id="${id}"]`);
 
     el && this.$list.removeChild(el);
   }
@@ -197,7 +199,7 @@ export default class View {
   private [Render.CompleteTodo](toggleTodo: Todo) {
     const { id, completed } = toggleTodo;
 
-    const todo = $(`[data-id="${id}"]`);
+    const todo = $<HTMLLIElement>(`[data-id="${id}"]`);
 
     /**
      * 当在 'Active' 和 'Completed' 路由时，点击 'toggleAll'.
@@ -207,13 +209,13 @@ export default class View {
 
     todo.classList.toggle("completed", completed);
 
-    $("input", todo).checked = completed;
+    $<HTMLInputElement>("input", todo).checked = completed;
   }
 
   // 渲染：编辑条目
   private [Render.EditTodos](todo: Todo) {
     const { id, title } = todo;
-    const editing = $(`[data-id="${id}"]`);
+    const editing = $<HTMLLIElement>(`[data-id="${id}"]`);
 
     editing.classList.add("editing");
 
@@ -228,12 +230,12 @@ export default class View {
   // 渲染：完成编辑条目
   private [Render.EditTodosDone](todo: Todo) {
     const { id, title } = todo;
-    const editing = $(`[data-id="${id}"]`);
-    const input = $(".edit", editing);
+    const editing = $<HTMLLIElement>(`[data-id="${id}"]`);
+    const input = $<HTMLInputElement>(".edit", editing);
 
     editing.removeChild(input);
     editing.classList.remove("editing");
 
-    $("label", editing).textContent = title;
+    $<HTMLLabelElement>("label", editing).textContent = title;
   }
 }
