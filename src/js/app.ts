@@ -1,3 +1,5 @@
+import "./index.scss";
+
 import Store from "./store";
 import Model from "./model";
 import Template from "./template";
